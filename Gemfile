@@ -14,6 +14,7 @@ gem "pg", "~> 1.1"
 
 gem 'devise', '~> 4.8', '>= 4.8.1'
 gem 'sortablejs-rails', '~> 1.15'
+gem "google-cloud-storage", "~> 1.11", require: false
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"

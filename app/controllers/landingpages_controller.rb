@@ -23,6 +23,13 @@ class LandingpagesController < ApplicationController
   def edit
     @blocks = Block.where(landingpage_id: @landingpage.id)
     @new_block = Block.new
+    
+    puts "---------"
+    puts "---------"
+    # Print the avatar attached to the user
+    puts Account.where(id: @landingpage.account_id).first.avatar.key
+    puts "---------"
+    puts "---------"
   end
 
   # PATCH/PUT /landingpages/1 or /landingpages/1.json
