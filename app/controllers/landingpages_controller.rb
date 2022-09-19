@@ -61,7 +61,7 @@ class LandingpagesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def landingpage_params
-      params.require(:landingpage).permit(:url)
+      params.require(:landingpage).permit(:url, :main_bg_colour, :profile_bg_colour)
     end
     
     def redirect_to_friendly_url

@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   
   get ':landingpage_url/edit', to: 'landingpages#edit', as: 'friendly_edit_landingpage'
   
+  put 'landingpages/:id/edit', to: 'landingpages#update'
+  
   resources :landingpages
   
   #get '/:landingpage_url' => 'landingpages#show'

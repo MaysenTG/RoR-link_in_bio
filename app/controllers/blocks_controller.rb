@@ -82,6 +82,6 @@ class BlocksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def block_params
-      params.require(:block).permit(:block_type, :url, :landingpage_id, :content, :title)
+      params.require(:block).permit(:block_type, :url, :landingpage_id, :content, :title, :block_image, :position)
     end
 end

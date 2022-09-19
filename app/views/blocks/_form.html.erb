@@ -1,19 +1,26 @@
-<%= form_with(model: block) do |form| %>
+<%= form_with(model: block, multipart: true) do |form| %>
   <!-- Input to associate with a landing page -->
   <input type="hidden" name="landingpage_id" value="<%= @landingpage.id %>"/>
   <div class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
     <div class="row w-100">
-      <div class="row col-10">
+      <div class="col-12 col-lg-2 col-sm-12"> <!-- Image input col -->
+        <div class="d-flex flex-column mb-3">
+          <% if block.block_image.attached? %>
+            <%= image_tag block.block_image, class: "img-fluid", style: "margin: 0 auto; max-width: 7rem;", id: "block-image_#{block.id}" %>
+          <% else %>
+            <img style="max-width: 7rem; margin: 0 auto;" id="block-image_<%= block.id %>" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg" class="rounded img-fluid"/>
+          <% end %>
+          <label for="block_image" class="form-label">Image</label>
+          <input class="form-control" type="file" id="block_image_input" name="block[block_image]">
+        </div>
+      </div>
+      <div class="row col-12 col-lg-8 col-sm-12"> <!-- Main input col -->
         <div class="col-12 d-flex gap-2 w-100">
-          <div class="mb-3" style="width: 33%;">
+          <div class="mb-3" style="width: 50%;">
             <%= form.label :title %>
             <%= form.text_field :title, placeholder: "Title", class: "form-control" %>
           </div>
-          <div class="mb-3" style="width: 33%;">
-            <%= form.label :block_type %>
-            <%= form.text_field :block_type, placeholder: "Block type", class: "form-control" %>
-          </div>
-          <div class="mb-3" style="width: 33%;">
+          <div class="mb-3" style="width: 50%;">
             <%= form.label :url %>
             <%= form.text_field :url, class: "form-control", placeholder: "URL" %>
           </div>
@@ -26,16 +33,12 @@
         </div>
       </div>
       <% if block.id.nil? %>
-        <div class="col-2 d-flex justify-content-evenly align-items-center">
+        <div class="col-12 col-lg-2 col-sm-12 d-flex justify-content-evenly align-items-center"> <!-- Action button col -->
           <button class="btn btn-success" style="max-height: 50px;" type="submit"><i class="fs-4 bi bi-check"></i></button>
           <button onclick="hideEditBlock(this, false);" style="max-height: 50px;" class="btn btn-secondary" type="button" class="cancel-edit-btn"><i class="fs-4 bi bi-x"></i></button>
-          <!-- 
-          <button class="btn btn-danger" type="submit" class="delete-btn"><i class="bi bi-trash"></i></button>
-          <input type="hidden" name="_method" value="delete" autocomplete="off">
-          -->
         </div>
       <% else %>
-        <div class="col-2 d-flex justify-content-evenly align-items-center">
+        <div class="col-12 col-lg-2 col-sm-12 d-flex justify-content-evenly align-items-center"> <!-- Action button col -->
           <button class="btn btn-success" style="max-height: 50px;" type="submit"><i class="fs-4 bi bi-check"></i></button>
           <button onclick="hideEditBlock(this, true);" style="max-height: 50px;" class="btn btn-secondary" type="button" class="cancel-edit-btn"><i class="fs-4 bi bi-x"></i></button>
           <button data-id="<%= block.id %>" style="max-height: 50px;" class="btn btn-danger" onclick="deleteBlock(this);" type="button" class="delete-btn"><i class="fs-4 bi bi-trash"></i></button>
@@ -72,4 +75,10 @@
 
       e.closest(".block-container").remove();
     }
+    
+    /* When the image input is changed, update the image preview */
+    document.querySelector("#block_image_input").addEventListener("change", function(e) {
+      let image_preview = document.querySelector("#block-image_<%= block.id %>");
+      image_preview.src = URL.createObjectURL(e.target.files[0]);
+    })
 </script>
