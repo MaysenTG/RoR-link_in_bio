@@ -1,0 +1,75 @@
+<%= form_with(model: block) do |form| %>
+  <!-- Input to associate with a landing page -->
+  <input type="hidden" name="landingpage_id" value="<%= @landingpage.id %>"/>
+  <div class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+    <div class="row w-100">
+      <div class="row col-10">
+        <div class="col-12 d-flex gap-2 w-100">
+          <div class="mb-3" style="width: 33%;">
+            <%= form.label :title %>
+            <%= form.text_field :title, placeholder: "Title", class: "form-control" %>
+          </div>
+          <div class="mb-3" style="width: 33%;">
+            <%= form.label :block_type %>
+            <%= form.text_field :block_type, placeholder: "Block type", class: "form-control" %>
+          </div>
+          <div class="mb-3" style="width: 33%;">
+            <%= form.label :url %>
+            <%= form.text_field :url, class: "form-control", placeholder: "URL" %>
+          </div>
+        </div>
+        <div class="col-12 d-flex gap-2 w-100">
+          <div class="mb-3 w-100">
+            <%= form.label :content %>
+            <%= form.text_field :content, placeholder: "Content", class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <% if block.id.nil? %>
+        <div class="col-2 d-flex justify-content-evenly align-items-center">
+          <button class="btn btn-success" style="max-height: 50px;" type="submit"><i class="fs-4 bi bi-check"></i></button>
+          <button onclick="hideEditBlock(this, false);" style="max-height: 50px;" class="btn btn-secondary" type="button" class="cancel-edit-btn"><i class="fs-4 bi bi-x"></i></button>
+          <!-- 
+          <button class="btn btn-danger" type="submit" class="delete-btn"><i class="bi bi-trash"></i></button>
+          <input type="hidden" name="_method" value="delete" autocomplete="off">
+          -->
+        </div>
+      <% else %>
+        <div class="col-2 d-flex justify-content-evenly align-items-center">
+          <button class="btn btn-success" style="max-height: 50px;" type="submit"><i class="fs-4 bi bi-check"></i></button>
+          <button onclick="hideEditBlock(this, true);" style="max-height: 50px;" class="btn btn-secondary" type="button" class="cancel-edit-btn"><i class="fs-4 bi bi-x"></i></button>
+          <button data-id="<%= block.id %>" style="max-height: 50px;" class="btn btn-danger" onclick="deleteBlock(this);" type="button" class="delete-btn"><i class="fs-4 bi bi-trash"></i></button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+<script>
+  function hideEditBlock(e, does_exist) {
+    if (does_exist) {
+      let editing_preview_form_container = e.closest(".block-container").querySelector(".preview-form-container");
+      let editing_edit_form_container = e.closest(".block-container").querySelector(".edit-form-container");
+
+      editing_preview_form_container.classList.remove("d-none")
+      editing_edit_form_container.classList.add("d-none")
+    } else {
+      e.closest("form").remove();
+    }
+  }
+
+    /* When the delete button is pressed, delete the block using the API endpoint */
+    async function deleteBlock(e) {
+      let block_id = e.getAttribute("data-id");
+
+      // Make a DELETE request to the API endpoint
+      let response = await fetch(`/blocks/${block_id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        }
+      });
+
+      e.closest(".block-container").remove();
+    }
+</script>

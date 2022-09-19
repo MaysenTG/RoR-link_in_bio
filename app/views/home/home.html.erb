@@ -1,0 +1,10 @@
+<h1>Create a new landing page</h1>
+<a href="/accounts/sign_up">Create an account</a>
+<% if notice %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <%= notice.html_safe %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% end %>

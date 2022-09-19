@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Landingpages</h1>
+
+<div id="landingpages">
+  <% @landingpages.each do |landingpage| %>
+    <%= render landingpage %>
+    <p>
+      <%= link_to "Show this landingpage", landingpage %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New landingpage", new_landingpage_path %>
