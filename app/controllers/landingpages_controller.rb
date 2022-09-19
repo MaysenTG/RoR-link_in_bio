@@ -21,29 +21,9 @@ class LandingpagesController < ApplicationController
   
   # GET /landingpages/1/edit
   def edit
-    #@block = @landingpage.blocks.build
-    # if request.path.include?("landingpages") and request.path.include?("edit")
-    #   redirect_to friendly_edit_landingpage_path(@landingpage)
-    # end
     @blocks = Block.where(landingpage_id: @landingpage.id)
     @new_block = Block.new
   end
-
-  # POST /landingpages or /landingpages.json
-  # def create
-  #   @landingpage = Landingpage.new(landingpage_params)
-  #   @landingpage.account_id = current_account.id
-
-  #   respond_to do |format|
-  #     if @landingpage.save
-  #       format.html { redirect_to landingpage_url(@landingpage), notice: "Landingpage was successfully created." }
-  #       format.json { render :show, status: :created, location: @landingpage }
-  #     else
-  #       format.html { render :new, status: :unprocessable_entity }
-  #       format.json { render json: @landingpage.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
 
   # PATCH/PUT /landingpages/1 or /landingpages/1.json
   def update

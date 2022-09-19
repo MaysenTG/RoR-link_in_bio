@@ -4,6 +4,10 @@ class Account < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable
   
+  # Polymorphic association for the avatar
+  has_one_attached :avatar
+           
+  # Ensures that the landingpage_url is unique
   validates_uniqueness_of :landingpage_url
   
   # Validates a landingpage URL with no spaces
@@ -17,7 +21,7 @@ class Account < ApplicationRecord
     #redirect_to edit_landingpage_path(Landingpage.where(account_id: id).first.id)
   end
   
-  protected
+  #protected
   def update_resource(resource, params)
     resource.update_without_password(params)
   end

@@ -23,5 +23,5 @@ Rails.application.routes.draw do
   #redirect_to 'home#error_routing'
   
   # If no route matches, redirect to the root path
-  get '*path', to: redirect('/')
+  #get '*path', to: redirect('/')
 end
