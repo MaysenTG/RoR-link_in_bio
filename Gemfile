@@ -13,6 +13,7 @@ gem "sprockets-rails"
 gem "pg", "~> 1.1"
 
 gem 'devise', '~> 4.8', '>= 4.8.1'
+gem 'sortablejs-rails', '~> 1.15'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
@@ -72,3 +73,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem "acts_as_list", "~> 1.0"

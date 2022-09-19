@@ -1,3 +1,8 @@
+<style>
+  .drag-list-icon:hover {
+    cursor: grab;
+  }
+</style>
 <div class="d-flex text-center w-100 justify-content-center align-items-center">
   <h1 class="text-center">Editing landingpage</h1>
   &nbsp;
@@ -56,12 +61,13 @@
 </div>
 </section>
 <section class="container">
-  <div class="list-group w-auto">
-    <% @blocks.each do |block| %>
-      <div class="block-container">
+  <div data-controller="drag" data-drag-url="/blocks/:id/move" class="list-group w-auto">
+    <% @blocks.order(position: :asc).each do |block| %>
+      <div data-id="<%= block.id %>" class="mb-3 block-container">
         <div class="preview-form-container d-flex">
           <div class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-            <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0"/>
+            <i class="drag-list-icon fs-3 align-self-center bi bi-grip-vertical"></i>
+            <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="align-self-center rounded-circle flex-shrink-0"/>
             <div class="d-flex gap-2 w-100 justify-content-between">
               <div>
                 <h6 class="mb-0"><%= block.title %></h6>

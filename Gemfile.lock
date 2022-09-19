@@ -66,6 +66,8 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    acts_as_list (1.0.4)
+      activerecord (>= 4.2)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     bcrypt (3.1.18)
@@ -188,6 +190,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sortablejs-rails (1.15.0)
+      rails (>= 6.0.0, < 8)
     sprockets (4.1.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -229,6 +233,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_list (~> 1.0)
   bootsnap
   capybara
   debug
@@ -239,6 +244,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.3, >= 7.0.3.1)
   selenium-webdriver
+  sortablejs-rails (~> 1.15)
   sprockets-rails
   stimulus-rails
   turbo-rails

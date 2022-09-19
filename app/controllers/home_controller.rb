@@ -11,7 +11,7 @@ class HomeController < ApplicationController
   def landingpage
     @landingpage = Landingpage.where(url: params[:landingpage_url]).first
     if @landingpage
-      @blocks = Block.where(landingpage_id: @landingpage.id)
+      @blocks = Block.where(landingpage_id: @landingpage.id).order(position: :asc)
       @new_block = Block.new
       @socials = {facebook: Account.find(@landingpage.account_id).facebook, twitter: Account.find(@landingpage.account_id).twitter, linkedin: Account.find(@landingpage.account_id).linkedin, github: Account.find(@landingpage.account_id).github}.as_json
     else

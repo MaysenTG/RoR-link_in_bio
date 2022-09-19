@@ -1,5 +1,5 @@
 class BlocksController < ApplicationController
-  before_action :set_block, only: %i[ show edit update destroy ]
+  before_action :set_block, only: %i[ show edit update destroy move ]
   skip_before_action :verify_authenticity_token
 
   # GET /blocks or /blocks.json
@@ -19,6 +19,11 @@ class BlocksController < ApplicationController
     @landingpage = Landingpage.where(account_id: current_account.id).first
     
     @new_block_bool = true
+  end
+  
+  def move
+    @block.insert_at(params[:position].to_i)
+    head :ok
   end
   
   # GET /blocks/1/edit
