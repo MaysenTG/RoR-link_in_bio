@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   
   #get '/:landingpage_url' => 'landingpages#show'
   root "home#home"
-  #redirect_to 'home#error_routing'
   
   # If no route matches, redirect to the root path
   #get '*path', to: redirect('/')
