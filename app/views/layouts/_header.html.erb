@@ -1,19 +1,18 @@
-<header class="p-3 text-bg-dark">
-  <div class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+<header class="navbar-modern">
+  <div class="container py-3">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <a href="/" class="d-flex align-items-center text-decoration-none text-dark fw-semibold">
+        <span class="brand-mark">↗</span>
+        <span class="ms-2">LinkFlow</span>
       </a>
-      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
-      </ul>
-      <div class="text-end d-flex">
+      <div class="d-flex align-items-center gap-2">
+        <a href="/" class="nav-link px-2 text-muted">Home</a>
         <% unless account_signed_in? %>
-          <a href="/accounts/sign_in" class="btn btn-outline-light me-2">Login</a>
-          <a href="/accounts/sign_up" class="btn btn-warning">Sign-up</a>
+          <a href="/accounts/sign_in" class="btn btn-outline-primary">Login</a>
+          <a href="/accounts/sign_up" class="btn btn-primary">Sign up</a>
         <% end %>
         <% if account_signed_in? %>
-          <%= button_to "Sign Out", destroy_account_session_path, method: :delete, class: "btn btn-warning" %>
+          <%= button_to "Sign out", destroy_account_session_path, method: :delete, class: "btn btn-primary" %>
         <% end %>
       </div>
     </div>
