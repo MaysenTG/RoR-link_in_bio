@@ -36,10 +36,13 @@ class LandingpagesController < ApplicationController
   def update
     respond_to do |format|
       if @landingpage.update(landingpage_params)
-        format.html { redirect_to landingpage_url(@landingpage), notice: "Landingpage was successfully updated." }
+        format.html { redirect_to friendly_edit_landingpage_path(@landingpage.url), notice: "Landingpage was successfully updated." }
         format.json { render :show, status: :ok, location: @landingpage }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html do
+          flash.now[:alert] = @landingpage.errors.full_messages.join("<br>")
+          render :edit, status: :unprocessable_entity
+        end
         format.json { render json: @landingpage.errors, status: :unprocessable_entity }
       end
     end

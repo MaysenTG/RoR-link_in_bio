@@ -7,6 +7,9 @@
       </a>
       <div class="d-flex align-items-center gap-2">
         <a href="/" class="nav-link px-2 text-muted">Home</a>
+        <% if account_signed_in? %>
+          <a href="/<%= current_account.landingpage_url %>" class="btn btn-outline-primary">My page</a>
+        <% end %>
         <% unless account_signed_in? %>
           <a href="/accounts/sign_in" class="btn btn-outline-primary">Login</a>
           <a href="/accounts/sign_up" class="btn btn-primary">Sign up</a>

@@ -6,12 +6,19 @@
 
 <div class="editor-shell">
   <div class="container">
-    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 mb-4">
-      <div>
-        <h1 class="mb-1">Editing landing page</h1>
-        <p class="text-muted mb-0">Shape the page, then preview it live in a new tab.</p>
+    <% if notice || alert %>
+      <div class="alert alert-modern mb-4 <%= alert.present? ? 'alert-danger' : '' %>" role="alert">
+        <%= (notice || alert).html_safe %>
       </div>
-      <a href="/<%= @landingpage.url %>" target="_blank" class="btn btn-primary">Preview</a>
+    <% end %>
+
+    <div class="editor-hero mb-4">
+      <div>
+        <div class="editor-kicker">Editor workspace</div>
+        <h1 class="mb-2">Craft your landing page</h1>
+        <p class="text-muted mb-0">Update your profile, arrange your links, and tune the theme in one place.</p>
+      </div>
+      <a href="/<%= @landingpage.url %>" target="_blank" class="btn btn-primary">Preview live page</a>
     </div>
 
     <div class="editor-panel">
@@ -28,6 +35,12 @@
               <div class="container py-4">
                 <div class="row justify-content-center">
                   <div class="col-md-10 col-lg-8">
+                    <div class="section-heading mb-3">
+                      <div>
+                        <h3 class="mb-1">Profile</h3>
+                        <p class="mb-0 text-muted">Add your photo, name, and social links.</p>
+                      </div>
+                    </div>
                     <form enctype="multipart/form-data" data-turbo="false" class="edit_account" id="edit_account" action="/accounts" accept-charset="UTF-8" method="post">
                       <div class="card form-card" id="profile">
                         <div class="card-body text-center">
@@ -85,11 +98,17 @@
             </section>
 
             <section id="blocks-section" class="container py-4">
+              <div class="section-heading mb-3">
+                <div>
+                  <h3 class="mb-1">Blocks</h3>
+                  <p class="mb-0 text-muted">Arrange your links and update each card as needed.</p>
+                </div>
+              </div>
               <div data-controller="drag" data-drag-url="/blocks/:id/move" class="link-list">
                 <% @blocks.order(position: :asc).each do |block| %>
                   <div data-id="<%= block.id %>" class="block-container">
-                    <div class="preview-form-container d-flex">
-                      <div class="link-card" aria-current="true">
+                    <div class="preview-form-container d-flex w-100">
+                      <div class="link-card w-100" aria-current="true">
                         <i class="drag-list-icon fs-3 align-self-center bi bi-grip-vertical text-muted"></i>
                         <% if block.block_image.attached? %>
                           <img src="https://storage.googleapis.com/rails_link_in_bio_images/<%= block.block_image.key %>" alt="Image for <%= block.title %>" />
@@ -97,11 +116,11 @@
                           <div class="link-icon"><i class="bi bi-arrow-up-right-circle"></i></div>
                         <% end %>
                         <div class="d-flex gap-2 w-100 justify-content-between align-items-center">
-                          <div>
+                          <div class="flex-grow-1">
                             <h6 class="mb-0"><%= block.title %></h6>
                             <p class="mb-0 link-copy"><%= block.content %></p>
                           </div>
-                          <button type="button" class="btn btn-light" onclick="showEditBlock(this);"><i class="bi bi-pencil-square"></i></button>
+                          <button type="button" class="btn btn-light edit-inline-btn" onclick="showEditBlock(this);"><i class="bi bi-pencil-square"></i></button>
                         </div>
                       </div>
                     </div>
@@ -114,7 +133,9 @@
               <div class="add-block-container mt-3">
                 <div class="list-group w-auto"></div>
               </div>
-              <button class="mt-4 btn btn-primary w-100" onclick="showAddBlock(this);">Add block</button>
+              <button class="mt-4 btn btn-primary w-100 add-block-btn" onclick="showAddBlock(this);">
+                <i class="bi bi-plus-circle me-2"></i>Add a new block
+              </button>
             </section>
           </div>
         </div>
@@ -158,12 +179,48 @@
     let preview_form_container = e.closest(".block-container").querySelector(".preview-form-container");
     let edit_form_container = e.closest(".block-container").querySelector(".edit-form-container");
 
-    preview_form_container.classList.add("d-none")
-    edit_form_container.classList.remove("d-none")
+    preview_form_container.classList.add("d-none");
+    edit_form_container.classList.remove("d-none");
+  }
+
+  function hideEditBlock(e, does_exist) {
+    let blockContainer = e.closest(".block-container");
+
+    if (does_exist && blockContainer) {
+      let preview_form_container = blockContainer.querySelector(".preview-form-container");
+      let edit_form_container = blockContainer.querySelector(".edit-form-container");
+
+      if (preview_form_container) {
+        preview_form_container.classList.remove("d-none");
+      }
+
+      if (edit_form_container) {
+        edit_form_container.classList.add("d-none");
+      }
+    } else if (e.closest("form")) {
+      e.closest("form").remove();
+    }
+  }
+
+  async function deleteBlock(e) {
+    let block_id = e.getAttribute("data-id");
+
+    if (!block_id) {
+      return;
+    }
+
+    await fetch(`/blocks/${block_id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    });
+
+    e.closest(".block-container").remove();
   }
 
   function toggle(social_media) {
-    let selected_social_media_btn = document.querySelector(`.social_${social_media}`);
     let all_social_media_btns = document.querySelectorAll(`.social-media-btn:not(.social_${social_media})`);
     let social_media_input = document.querySelector(`input[name="account[${social_media}]"]`);
 
@@ -173,11 +230,20 @@
     social_media_input.classList.toggle("d-none");
   }
 
+  document.addEventListener("change", function(event) {
+    if (event.target.matches("input[type='file'][name='block[block_image]']")) {
+      let preview = event.target.closest(".block-form")?.querySelector("[data-block-preview='true']") || event.target.closest("form")?.querySelector("[data-block-preview='true']");
+      if (preview && event.target.files && event.target.files[0]) {
+        preview.src = URL.createObjectURL(event.target.files[0]);
+      }
+    }
+  });
+
   document.querySelector("#avatar").addEventListener("change", function() {
     let file = this.files[0];
     let reader = new FileReader();
     reader.onloadend = function() {
-      document.querySelector("#profile-image").src = reader.result.blob;
+      document.querySelector("#profile-image").src = reader.result;
     }
     if (file) {
       reader.readAsDataURL(file);

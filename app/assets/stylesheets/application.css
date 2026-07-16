@@ -232,6 +232,33 @@ a {
   padding: 1rem 1.1rem;
   color: var(--text);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.edit-inline-btn {
+  border-radius: 999px;
+  min-width: 44px;
+}
+
+.block-editor-card {
+  border-radius: 20px;
+  border: 1px solid rgba(79, 70, 229, 0.12);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.95));
+}
+
+.block-editor-card .btn {
+  min-width: 44px;
+}
+
+.action-stack {
+  align-self: stretch;
+}
+
+.action-pill {
+  flex: 1 1 0;
+  min-width: 92px;
+  border-radius: 999px;
 }
 
 .link-card:hover {
@@ -281,6 +308,31 @@ a {
   padding: 1.5rem 0 3rem;
 }
 
+.editor-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.4rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.editor-kicker {
+  display: inline-block;
+  margin-bottom: 0.4rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .editor-panel {
   overflow: hidden;
   border-radius: 28px;
@@ -307,8 +359,20 @@ a {
   border-bottom: 2px solid var(--primary);
 }
 
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .form-card {
   padding: 1rem;
+  border-radius: 22px;
+}
+
+.add-block-btn {
+  border-radius: 999px;
+  padding: 0.8rem 1rem;
 }
 
 .social-media-btn {
@@ -328,6 +392,11 @@ a {
     padding: 1.5rem;
   }
 
+  .editor-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .profile-card {
     padding: 1.5rem;
   }
@@ -335,5 +404,15 @@ a {
   .link-card {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .action-stack {
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .action-pill {
+    flex: 0 0 auto;
   }
 }

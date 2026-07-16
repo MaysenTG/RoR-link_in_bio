@@ -1,9 +1,7 @@
 class HomeController < ApplicationController
-  # Don't run the edit_when_loggedin method if the home#landingpage method is called
   def home
-    if account_signed_in?
-      redirect_to edit_landingpage_path(Landingpage.where(account_id: current_account.id).first.id)
-    end
+    # Keep the marketing/home page available for signed-in users too.
+    # The editor is still reachable via the landing page edit route.
   end
   
   def landingpage    
